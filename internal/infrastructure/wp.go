@@ -25,6 +25,7 @@ func NewWorkerPool(limit int, ctx context.Context) *WorkerPool {
 func (p *WorkerPool) AddJob(task Task) {
 	select {
 	case <-p.ctx.Done():
+		return
 	case p.sem <- struct{}{}:
 		p.wg.Add(1)
 		go func() {
